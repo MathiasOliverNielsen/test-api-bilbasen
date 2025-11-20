@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 const router = Router();
 
-// Alle afdelinger
+// Alle afdelinger (både med og uden trailing slash)
 router.get('/', (req, res) => {
   res.send('Find vores afdelinger i hele Danmark');
   console.log('Afdelinger hovedside besøgt');
@@ -20,7 +20,7 @@ router.get('/fyn', (req, res) => {
   console.log('Fyn afdelinger besøgt');
 });
 
-// Sjælland
+// Sjælland (understøt både encoded og normal version)
 router.get('/sjaelland', (req, res) => {
   res.send('Bilbasen afdelinger på Sjælland');
   console.log('Sjælland afdelinger besøgt');

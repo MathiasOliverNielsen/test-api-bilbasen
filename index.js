@@ -25,7 +25,7 @@ app.get('/contact', (req, res) => {
 
 // Apply routers with English paths
 app.use('/cars', carRouter);
-app.use('/departments', afdelingerRouter);
+app.use('/afdelinger', afdelingerRouter);
 
 // 404 Error Handler
 app.use((req, res) => {
