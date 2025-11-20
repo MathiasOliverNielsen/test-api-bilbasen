@@ -4,7 +4,7 @@ const router = Router(); // Fejl rettelse: var "routerx()"
 
 // Bil liste
 router.get('/', (req, res) => {
-  res.send('Se alle vores biler til salg - over 50.000 biler!');
+  res.send('Se alle vores biler til salg');
   console.log('Bil liste side besøgt');
 });
 

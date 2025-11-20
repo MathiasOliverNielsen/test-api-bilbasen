@@ -23,7 +23,6 @@ app.get('/contact', (req, res) => {
   console.log('Contact page visited');
 });
 
-// Apply routers with English paths
 app.use('/cars', carRouter);
 app.use('/afdelinger', afdelingerRouter);
 
