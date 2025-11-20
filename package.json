@@ -1,0 +1,23 @@
+{
+  "name": "test-api-bilbasen",
+  "version": "1.0.0",
+  "description": "Test api project",
+  "homepage": "https://github.com/MathiasOliverNielsen/test-api-bilbasen#readme",
+  "bugs": {
+    "url": "https://github.com/MathiasOliverNielsen/test-api-bilbasen/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MathiasOliverNielsen/test-api-bilbasen.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
