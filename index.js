@@ -1,8 +1,11 @@
 import express from 'express';
+import dotenv from 'dotenv';
 import { carRouter } from './routes/carRoutes.js';
 import { afdelingerRouter } from './routes/afdelingerRoutes.js';
 
-const port = 4000;
+dotenv.config();
+
+const port = process.env.SERVER_PORT || 4000;
 const app = express();
 
 // Home (Root)
