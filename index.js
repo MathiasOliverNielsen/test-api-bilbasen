@@ -2,16 +2,20 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { carRouter } from './routes/carRoutes.js';
 import { afdelingerRouter } from './routes/afdelingerRoutes.js';
+import { brandRouter } from './routes/brandRoutes.js';
+import { categoryRouter } from './routes/categoryRoutes.js';
 
 dotenv.config();
 
 const port = process.env.SERVER_PORT || 4000;
 const app = express();
 
+// Middleware for JSON parsing
+app.use(express.json());
+
 // Home (Root)
 app.get('/', (req, res) => {
   res.send('Velkommen til Bilbasen - Danmarks største bilmarked!');
-  console.log('Home page visited');
 });
 
 // About us
@@ -26,8 +30,16 @@ app.get('/contact', (req, res) => {
   console.log('Contact page visited');
 });
 
+// API routes med CRUD funktionalitet
+app.use('/api/cars', carRouter);
+app.use('/api/brands', brandRouter);
+app.use('/api/categories', categoryRouter);
+
+// Eksisterende routes
 app.use('/cars', carRouter);
 app.use('/afdelinger', afdelingerRouter);
+app.use('/brands', brandRouter);
+app.use('/categories', categoryRouter);
 
 // 404 Error Handler
 app.use((req, res) => {

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getRecords, getRecord, createRecord, updateRecord, deleteRecord } from '../controllers/carController.js';
+import { getRecords, getRecord, createRecord, updateRecord, deleteRecord } from '../controllers/brandController.js';
 
 const router = Router();
 
@@ -10,4 +10,4 @@ router.post('/', createRecord);
 router.put('/:id', updateRecord);
 router.delete('/:id', deleteRecord);
 
-export { router as carRouter };
+export { router as brandRouter };

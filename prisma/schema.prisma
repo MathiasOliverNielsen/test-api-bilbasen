@@ -18,3 +18,35 @@ model User {
   name  String  @default("Untitled")
   email String  @unique
 }
+model Car {
+  id        Int      @id @default(autoincrement())
+  model     String
+  year      Int
+  price     Float
+  fueltype  String
+  
+  // Foreign keys
+  categoryId Int
+  brandId    Int
+  
+  // Relations
+  category   Category @relation(fields: [categoryId], references: [id])
+  brand      Brand    @relation(fields: [brandId], references: [id])
+}
+
+model Category {
+  id    Int    @id @default(autoincrement())
+  name  String
+  
+  // Relations
+  cars  Car[]
+}
+
+model Brand {
+  id    Int    @id @default(autoincrement())
+  name  String
+  logo  String?
+  
+  // Relations
+  cars  Car[]
+}
