@@ -8,11 +8,10 @@ export const getRecords = async (req, res) => {
         cars: true,
       },
     });
-    console.log('categoryController - getRecords kaldt');
     res.json(data);
   } catch (error) {
     console.error(error);
-    res.status(500).send(`DB Fejl: Kunne ikke hente liste af kategorier`);
+    res.status(500).json({ error: 'Kunne ikke hente liste af kategorier' });
   }
 };
 
@@ -26,25 +25,42 @@ export const getRecord = async (req, res) => {
         cars: true,
       },
     });
-    console.log(`categoryController - getRecord kaldt for ID: ${id}`);
+
+    if (!data) {
+      return res.status(404).json({ error: 'Category ikke fundet' });
+    }
+
     res.json(data);
   } catch (error) {
     console.error(error);
-    res.status(500).send(`DB Fejl: Kunne ikke hente kategori`);
+    res.status(500).json({ error: 'Kunne ikke hente kategori' });
   }
 };
 
 // POST - Opret række
 export const createRecord = async (req, res) => {
+  const { name } = req.body;
+
+  if (!name) {
+    return res.status(400).json({ error: 'Name er påkrævet' });
+  }
+
   try {
     const data = await prisma.category.create({
-      data: req.body,
+      data: {
+        name,
+      },
     });
-    console.log('categoryController - createRecord kaldt');
-    res.status(201).json(data);
+
+    return res.status(201).json(data);
   } catch (error) {
     console.error(error);
-    res.status(500).send(`DB Fejl: Kunne ikke oprette kategori`);
+
+    if (error.code === 'P2002') {
+      return res.status(409).json({ error: 'Category navn eksisterer allerede' });
+    }
+
+    return res.status(500).json({ error: 'Noget gik galt i serveren' });
   }
 };
 
@@ -56,11 +72,10 @@ export const updateRecord = async (req, res) => {
       where: { id: parseInt(id) },
       data: req.body,
     });
-    console.log(`categoryController - updateRecord kaldt for ID: ${id}`);
     res.json(data);
   } catch (error) {
     console.error(error);
-    res.status(500).send(`DB Fejl: Kunne ikke opdatere kategori`);
+    res.status(500).json({ error: 'Kunne ikke opdatere kategori' });
   }
 };
 
@@ -71,10 +86,9 @@ export const deleteRecord = async (req, res) => {
     await prisma.category.delete({
       where: { id: parseInt(id) },
     });
-    console.log(`categoryController - deleteRecord kaldt for ID: ${id}`);
     res.status(204).send();
   } catch (error) {
     console.error(error);
-    res.status(500).send(`DB Fejl: Kunne ikke slette kategori`);
+    res.status(500).json({ error: 'Kunne ikke slette kategori' });
   }
 };

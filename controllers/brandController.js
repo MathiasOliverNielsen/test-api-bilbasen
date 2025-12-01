@@ -12,7 +12,7 @@ export const getRecords = async (req, res) => {
     res.json(data);
   } catch (error) {
     console.error(error);
-    res.status(500).send(`DB Fejl: Kunne ikke hente liste af brands`);
+    res.status(500).json({ error: 'Kunne ikke hente liste af brands' });
   }
 };
 
@@ -26,25 +26,45 @@ export const getRecord = async (req, res) => {
         cars: true,
       },
     });
+
+    if (!data) {
+      return res.status(404).json({ error: 'Brand ikke fundet' });
+    }
+
     console.log(`brandController - getRecord kaldt for ID: ${id}`);
     res.json(data);
   } catch (error) {
     console.error(error);
-    res.status(500).send(`DB Fejl: Kunne ikke hente brand`);
+    res.status(500).json({ error: 'Kunne ikke hente brand' });
   }
 };
 
 // POST - Opret række
 export const createRecord = async (req, res) => {
+  const { name, logo } = req.body;
+
+  if (!name) {
+    return res.status(400).json({ error: 'Name er påkrævet' });
+  }
+
   try {
     const data = await prisma.brand.create({
-      data: req.body,
+      data: {
+        name,
+        logo: logo || null,
+      },
     });
+
     console.log('brandController - createRecord kaldt');
-    res.status(201).json(data);
+    return res.status(201).json(data);
   } catch (error) {
     console.error(error);
-    res.status(500).send(`DB Fejl: Kunne ikke oprette brand`);
+
+    if (error.code === 'P2002') {
+      return res.status(409).json({ error: 'Brand navn eksisterer allerede' });
+    }
+
+    return res.status(500).json({ error: 'Noget gik galt i serveren' });
   }
 };
 
@@ -60,7 +80,7 @@ export const updateRecord = async (req, res) => {
     res.json(data);
   } catch (error) {
     console.error(error);
-    res.status(500).send(`DB Fejl: Kunne ikke opdatere brand`);
+    res.status(500).json({ error: 'Kunne ikke opdatere brand' });
   }
 };
 
@@ -75,6 +95,6 @@ export const deleteRecord = async (req, res) => {
     res.status(204).send();
   } catch (error) {
     console.error(error);
-    res.status(500).send(`DB Fejl: Kunne ikke slette brand`);
+    res.status(500).json({ error: 'Kunne ikke slette brand' });
   }
 };

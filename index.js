@@ -12,6 +12,9 @@ const app = express();
 
 // Middleware for JSON parsing
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Debug middleware (fjernet for production)
 
 // Home (Root)
 app.get('/', (req, res) => {
@@ -21,24 +24,17 @@ app.get('/', (req, res) => {
 // About us
 app.get('/about', (req, res) => {
   res.send('Om Bilbasen - Vi har hjulpet danskerne med bilkøb siden 1999');
-  console.log('About page visited');
 });
 
 // Contact
 app.get('/contact', (req, res) => {
   res.send('Kontakt Bilbasen - Ring til os på 70 10 10 15');
-  console.log('Contact page visited');
 });
 
-// API routes med CRUD funktionalitet
-app.use('/api/cars', carRouter);
-app.use('/api/brands', brandRouter);
-app.use('/api/categories', categoryRouter);
-
-// Eksisterende routes
+// API routes
 app.use('/cars', carRouter);
 app.use('/afdelinger', afdelingerRouter);
-app.use('/brands', brandRouter);
+app.use('/brands', brandRouter); // Fixed from '/e'
 app.use('/categories', categoryRouter);
 
 // 404 Error Handler
@@ -48,7 +44,6 @@ app.use((req, res) => {
     <p>Sorry, the page "${req.originalUrl}" does not exist on our website.</p>
     <a href="/">Go back to homepage</a>
   `);
-  console.log(`404 error - Attempted to access: ${req.originalUrl}`);
 });
 
 app.listen(port, () => {
