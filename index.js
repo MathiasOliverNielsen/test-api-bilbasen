@@ -4,6 +4,7 @@ import { carRouter } from './routes/carRoutes.js';
 import { afdelingerRouter } from './routes/afdelingerRoutes.js';
 import { brandRouter } from './routes/brandRoutes.js';
 import { categoryRouter } from './routes/categoryRoutes.js';
+import { userRouter } from './routes/userRoutes.js';
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ app.use('/cars', carRouter);
 app.use('/afdelinger', afdelingerRouter);
 app.use('/brands', brandRouter); // Fixed from '/e'
 app.use('/categories', categoryRouter);
+app.use('/users', userRouter);
 
 // 404 Error Handler
 app.use((req, res) => {
